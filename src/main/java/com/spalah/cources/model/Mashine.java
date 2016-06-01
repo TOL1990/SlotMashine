@@ -1,6 +1,8 @@
 package com.spalah.cources.model;
 
 
+import com.spalah.cources.model.entity.User;
+
 import java.util.List;
 
 public class Mashine {
