@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="SlotMashine" />
+        <module name="SlotMashines" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SlotMashine" target="1.5" />
+      <module name="SlotMashines" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
