@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Component
 //@Qualifier("test1")
-public class PlayerDaoImplz extends AbstractDao<Integer, Player> implements PlayerDao {
+public class PlayerDaoImpl extends AbstractDao<Integer, Player> implements PlayerDao {
 
 // получение сесси Я запихнул в    AbstractDao   метод getSession()
 // @Autowired
