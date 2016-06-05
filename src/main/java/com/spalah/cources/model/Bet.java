@@ -1,4 +1,4 @@
-package com.spalah.cources.model.entity;
+package com.spalah.cources.model;
 
 
 import com.spalah.cources.model.Line;

@@ -51,6 +51,7 @@ public class MashineDaoImpl extends AbstractDao<Integer, Mashine> implements Mas
 
     }
 
+
     @Override
     public List<Mashine> findAllMashines() {
         Criteria criteria = createEntityCriteria();

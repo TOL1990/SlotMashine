@@ -2,13 +2,13 @@ package com.spalah.cources.service.impl;
 
 import com.spalah.cources.model.Line;
 import com.spalah.cources.model.dao.MashineDao;
+import com.spalah.cources.model.Board;
 import com.spalah.cources.model.entity.Mashine;
-import com.spalah.cources.model.entity.PayTable;
 import com.spalah.cources.service.MashineService;
-import com.spalah.cources.service.PayTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -24,17 +24,40 @@ public class MashineServiceImpl implements MashineService {
     @Autowired
     MashineDao mashineDao;
 
-    public void makeBet(Map<List<Line>, Integer> betsMap){
-        //принять линии и ставку на каждую из них
-//        проверить являются ли ставки допустимыми
-//        не привышает ли общая ставка денежный лимит игрока
+    public String makeBet(Map<Line, Integer> betsMap){
+        BigDecimal result = null;
+        if(chekValid(betsMap))
+        {
+          int[][] drum = spin();
+           result = chekResult(betsMap, drum);
+            //todo изменить пользовательский баланс
+        }
+  return  result.toString();
     }
 
-    public void spin(){
+    private BigDecimal chekResult(Map<Line, Integer> betsMap, int[][] drum) {
+
+        // получитьколичество точек линии,
+        // карту выиграшей для конкретной машины
+        return null;
+    }
+
+    private boolean chekValid(Map<Line, Integer> betsMap) {
+        //проверить хватает ли денег на ставки. 
+        //являются ли ставки допустимыми соответствующей слот машине
+        return false;
+    }
+
+    public int[][] spin(){
        // получить последнюю ставку
         // перемешать слоты
         //просчет результата
         //изменить баланс пользователя
+
+        Board board = new Board();
+        board.spin();
+        return board.getDrum();
+
     }
     /**
      * Доступные ставки на конкретной машине

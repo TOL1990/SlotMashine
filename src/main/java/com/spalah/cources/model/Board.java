@@ -1,6 +1,9 @@
 package com.spalah.cources.model;
 
 
+import java.util.Arrays;
+import java.util.Random;
+
 public class Board {
     private int coll;
     private int row;
@@ -28,9 +31,37 @@ public class Board {
         return drums;
     }
 
+    public void spin(){
+       drum = new int[coll][row];
+        Random rnd = new Random();
+        for (int i=0;i < drum.length;i++) {
+            for (int j=0;j < drum[i].length;j++) {
+                drum[i][j]=rnd.nextInt(5) + 1;
+            }
+        }
 
+
+    }
 
     public void setDrum(int[][] drum) {
         this.drum = drum;
     }
+
+    public int[][] getDrum() {
+        return drum;
+    }
+
+    @Override
+    public String toString() {
+
+        //goodlook sout
+//        for (int i=0;i < drum.length;i++) {
+//            for (int j=0;j < drum[i].length;j++){
+//                System.out.print(drum[i][j]+" ");
+//            }
+//        }
+        return "<Поле{ " + Arrays.toString(drum) +'}';
+    }
+
+
 }

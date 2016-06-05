@@ -1,7 +1,10 @@
 package com.spalah.cources.model.entity;
 
 
+import com.spalah.cources.model.Board;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "mashines")
@@ -17,8 +20,11 @@ public class Mashine {
 
 
 //    List<Line> lines; //перечень линий доступных для игры
-//    Board drums; // наше игровое поле. Барабаны
-//    List<Bet> playerBets; // Описывает ставки сделанные игроком
+    @Transient
+Board drums; // наше игровое поле. Барабаны
+
+
+//    List<MashineBets> playerBets; // Описывает ставки сделанные игроком
 //    int[] mashineBet;//доступные ставки
 //    PayTable payTable;
 
@@ -41,6 +47,14 @@ public class Mashine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Board getDrums() {
+        return drums;
+    }
+
+    public void setDrums(Board drums) {
+        this.drums = drums;
     }
 
     @Override

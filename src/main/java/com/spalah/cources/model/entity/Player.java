@@ -22,7 +22,7 @@ public class Player {
     @Size(min = 3, max = 50)
     @NotNull
     @NotEmpty
-    @Column(name = "nick", nullable = false)
+    @Column(name = "nick", unique = true, nullable = false)
     private String nickName;
 
     @Size(min = 3, max = 50)
