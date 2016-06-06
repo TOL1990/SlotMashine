@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Component
 //@Qualifier("test1")
-public class PlayerDaoImpl extends AbstractDao<Integer, Player> implements PlayerDao {
+public class PlayerDaoImpl extends AbstractDao<Long, Player> implements PlayerDao {
 
 // получение сесси Я запихнул в    AbstractDao   метод getSession()
 // @Autowired
@@ -31,50 +32,35 @@ public class PlayerDaoImpl extends AbstractDao<Integer, Player> implements Playe
     }
 
     @Override
-    public Player findById(int id) {
-        return null;
+    public Player findById(Long id) {
+        return getByKey(id);
     }
 
     @Override
     public void savePlayer(Player player) {
-
+            persist(player);
     }
 
     @Override
     public void deletePlayerByNick(String nick) {
-
+        Query query = getSession().createSQLQuery("delete from Player where nickName = :nick");
+        query.setString("nick", nick);
+        query.executeUpdate();
     }
 
-//    public Player findById(int id) {
-//        return getByKey(id);
-//    }
-//
-//    public void savePlayer(Player player) {
-//        persist(player);
-//    }
-//
-//    public void deletePlayerByNick(String nick) {
-//        Query query = getSession().createSQLQuery("delete from Player where nick = :nick");
-//        query.setString("nick", nick);
-//        query.executeUpdate();
-//    }
 
     @SuppressWarnings("unchecked")
     public List<Player> findAllPlayers() {
-//        Session session = sessionFactory.getCurrentSession();
-//        Criteria criteria = session.createCriteria(Player.class);
         Criteria criteria = createEntityCriteria();
         return (List<Player>) criteria.list();
     }
 
     @Override
-    public Player findPlayerByNick(String nick) {
-        return null;
+    public Player findPlayerByNick(String nickName) {
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("nickName", nickName));
+        return (Player) criteria.uniqueResult();
     }
 
-//    public Player findPlayerByNick(String nick) {
-//        Criteria criteria = createEntityCriteria();
-//        criteria.add(Restrictions.eq("nick", nick));
-//        return (Player) criteria.uniqueResult();
-//    }
+
 }

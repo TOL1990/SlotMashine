@@ -2,6 +2,7 @@ package com.spalah.cources.model.dao;
 
 import com.spalah.cources.model.entity.Player;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 public interface PlayerDao {
     void test();
 
-    Player findById(int id);
+    Player findById(Long id);
 
     void savePlayer(Player player);
 
@@ -19,4 +20,7 @@ public interface PlayerDao {
     List<Player> findAllPlayers();
 
     Player findPlayerByNick(String nick);
+
+
+
 }

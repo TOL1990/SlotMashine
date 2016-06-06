@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Тарас on 03.06.2016.
  */
 public interface PlayerService {
-    Player findById(int id);
+    Player findById(long id);
 
     void savePlayer(Player player);
 

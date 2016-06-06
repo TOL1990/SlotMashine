@@ -17,7 +17,7 @@ public class PlayerServiceImpl implements PlayerService {
     private PlayerDao dao;
 
 
-    public Player findById(int id)
+    public Player findById(long id)
     {
         return dao.findById(id);
     }
@@ -26,8 +26,13 @@ public class PlayerServiceImpl implements PlayerService {
         dao.savePlayer(player);
     }
 
+    /*
+ * Since the method is running with Transaction, No need to call hibernate update explicitly.
+ * Just fetch the entity from db and update it with proper values within transaction.
+ * It will be updated in db once transaction ends.
+ */
     public void updatePlayer (Player player) {
-        Player entity = dao.findById((int) player.getId());
+        Player entity = dao.findById((long) player.getId());
         if (entity != null) {
             entity.setNickName(player.getNickName());
             entity.setPassword(player.getPassword());

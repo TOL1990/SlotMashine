@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -76,26 +77,28 @@ public class MainController {
      * линия 1 - ставка 25$
      */
     @RequestMapping(value = {"/bet"}, method = RequestMethod.GET)
+    @ResponseBody
     public String bet() {
 
         Map<Line, Integer> bets = new HashMap<>();// сюда будет получен результат из формы. линия и сколько денег на точку
         //получаем сет линий
-
-        mashineService.makeBet(bets);
-        // передать список линий на которые были ставки и сколько на точку линии
-        return "баланс";
+       String result = mashineService.makeBet(bets);
+        return result;
     }
-//    @RequestMapping(value = { "/new" }, method = RequestMethod.GET)
-//    public String newPlayer(ModelMap model) {
-//        Player player = new Player();
-//        model.addAttribute("player", player);
-//        model.addAttribute("edit", false);
-//        return "registration";
-//    }
-    @RequestMapping(value = "/test.form",method = RequestMethod.GET)
+
+    @RequestMapping(value = { "/new" }, method = RequestMethod.GET)
     @ResponseBody
+    public String newPlayer(ModelMap model) {
+        Player player = new Player();
+        model.addAttribute("player", player);
+        model.addAttribute("edit", false);
+        return player.toString();
+    }
+
+    @RequestMapping(value = "/test.form",method = RequestMethod.GET)
     public String test(@RequestParam("name") String param,Model model) {
         model.addAttribute("name", param);
         return "hello " + param;
     }
+
 }
