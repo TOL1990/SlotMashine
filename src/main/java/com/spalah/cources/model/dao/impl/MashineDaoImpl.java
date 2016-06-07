@@ -4,6 +4,7 @@ import com.spalah.cources.model.Line;
 import com.spalah.cources.model.dao.AbstractDao;
 import com.spalah.cources.model.dao.MashineDao;
 import com.spalah.cources.model.entity.Mashine;
+import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.PayTable;
 import com.spalah.cources.model.entity.Player;
 import org.hibernate.Criteria;
@@ -15,10 +16,11 @@ import java.util.List;
  * Created by Тарас on 04.06.2016.
  */
 @Component
-public class MashineDaoImpl extends AbstractDao<Integer, Mashine> implements MashineDao {
+public class MashineDaoImpl extends AbstractDao<Long, Mashine> implements MashineDao {
     @Override
-    public int[] avaliableBets(Mashine mashine) {
-        return new int[0];
+    public List<MashineBets> avaliableBets(Mashine mashine) {
+
+        return null;
     }
 
     @Override
@@ -36,15 +38,13 @@ public class MashineDaoImpl extends AbstractDao<Integer, Mashine> implements Mas
         return null;
     }
 
-    @Override
+
     public Mashine findById(long id) {
-        return null;
+        return getByKey(id);
     }
 
     @Override
-    public void saveMashine(Mashine mashine) {
-
-    }
+    public void saveMashine(Mashine mashine) {persist(mashine);}
 
     @Override
     public void deleteMashineById(long id) {

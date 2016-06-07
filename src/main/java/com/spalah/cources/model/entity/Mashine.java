@@ -20,17 +20,19 @@ public class Mashine implements Serializable {
     String name;
 
 
-//    List<Line> lines; //перечень линий доступных для игры
+    //    List<Line> lines; //перечень линий доступных для игры
     @Transient
-Board drums; // наше игровое поле. Барабаны
+    Board drums; // наше игровое поле. Барабаны
 
 
 //    List<MashineBets> playerBets; // Описывает ставки сделанные игроком
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mashine", cascade = CascadeType.ALL)
-    List<MashineBets> bets;
-//    int[] mashineBet;//доступные ставки
-//    PayTable payTable;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mashine", cascade = CascadeType.ALL)
+    List<MashineBets> bets; //доступные ставки
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    private PayTable payTable;
 
     public Mashine() {
 
@@ -73,7 +75,7 @@ Board drums; // наше игровое поле. Барабаны
     public String toString() {
         return "Mashine{" +
                 "" + id +
-                "  - " + name  +
+                "  - " + name +
                 '}';
     }
 }

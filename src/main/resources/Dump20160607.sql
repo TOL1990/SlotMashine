@@ -27,9 +27,12 @@ DROP TABLE IF EXISTS `bets`;
 CREATE TABLE `bets` (
   `mashine_id` int(11) NOT NULL,
   `bet` decimal(10,0) DEFAULT NULL COMMENT 'Описывает доступные ставки для слот машш',
+  `bet_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`bet_id`),
+  UNIQUE KEY `bet_id_UNIQUE` (`bet_id`),
   KEY `BetToMashineFK_idx` (`mashine_id`),
   CONSTRAINT `BetToMashineFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +41,7 @@ CREATE TABLE `bets` (
 
 LOCK TABLES `bets` WRITE;
 /*!40000 ALTER TABLE `bets` DISABLE KEYS */;
+INSERT INTO `bets` VALUES (1,5,1),(1,10,2),(1,25,3),(1,50,4),(1,100,5),(2,50,6),(2,100,7),(2,200,8),(2,500,9),(2,300,10),(2,750,11),(2,1000,12);
 /*!40000 ALTER TABLE `bets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,6 +56,7 @@ CREATE TABLE `icons` (
   `icon_id` int(11) NOT NULL AUTO_INCREMENT,
   `image` tinyblob,
   `description` varchar(100) DEFAULT NULL,
+  `pay_table_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`icon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -148,10 +153,12 @@ DROP TABLE IF EXISTS `pay_icons`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pay_icons` (
-  `icon_id` int(11) NOT NULL,
+  `icon_id` int(11) DEFAULT NULL,
   `images_count` int(11) DEFAULT NULL COMMENT 'за сколько собранных картинок получишь награду',
   `award` decimal(10,0) DEFAULT NULL COMMENT 'сколько получишь за собранные картинки',
-  PRIMARY KEY (`icon_id`),
+  `pay_icon_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`pay_icon_id`),
+  KEY `PayIconToIconFK` (`icon_id`),
   CONSTRAINT `PayIconToIconFK` FOREIGN KEY (`icon_id`) REFERENCES `icons` (`icon_id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -174,11 +181,12 @@ DROP TABLE IF EXISTS `pay_tables`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pay_tables` (
   `mashine_id` int(11) DEFAULT NULL,
-  `icon_id` int(11) DEFAULT NULL,
+  `pay_table_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`pay_table_id`),
+  UNIQUE KEY `pay_table_id_UNIQUE` (`pay_table_id`),
   KEY `MashineToPayTabFK_idx` (`mashine_id`),
-  KEY `IconToPayTabFK_idx` (`icon_id`),
-  CONSTRAINT `MashineToPayTabFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `IconToPayTabFK` FOREIGN KEY (`icon_id`) REFERENCES `icons` (`icon_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `MashineToPayTabFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Описывает таблички выплат для каждой машины';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -214,7 +222,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (1,'lamer','111',10000),(2,'pro','123654',1000000);
+INSERT INTO `players` VALUES (1,'lamer','111',110),(2,'pro','123654',1000000);
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-04 21:32:24
+-- Dump completed on 2016-06-07 18:41:04

@@ -2,6 +2,7 @@ package com.spalah.cources.controller;
 
 import com.spalah.cources.model.Line;
 import com.spalah.cources.model.entity.Mashine;
+import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.Player;
 import com.spalah.cources.service.MashineService;
 import com.spalah.cources.service.PlayerService;
@@ -9,18 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
-import java.awt.*;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -72,6 +70,14 @@ public class MainController {
         return mashines.toString();
     }
 
+    @RequestMapping(value = {"/avaliableBets"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String listMashines() {
+        long mashineId = 1;// 1 - какой машины посмотреть доступные ставки
+        List<MashineBets> bets = mashineService.avaliableBets(mashineId);
+        return bets.toString();
+    }
+
     /**
      * Выбрать линии, выбрать ставки для каждой из них
      * линия 1 - ставка 25$
@@ -82,11 +88,11 @@ public class MainController {
 
         Map<Line, Integer> bets = new HashMap<>();// сюда будет получен результат из формы. линия и сколько денег на точку
         //получаем сет линий
-       String result = mashineService.makeBet(bets);
+        String result = mashineService.makeBet(bets);
         return result;
     }
 
-    @RequestMapping(value = { "/new" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/new"}, method = RequestMethod.GET)
     @ResponseBody
     public String newPlayer(ModelMap model) {
         Player player = new Player();
@@ -95,7 +101,7 @@ public class MainController {
         return player.toString();
     }
 
-    @RequestMapping(value = "/bet",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String test(@RequestBody Player player) {
         Player pl = playerService.findById(player.getId());
@@ -103,7 +109,6 @@ public class MainController {
         playerService.updatePlayer(pl);
         return player.toString();
     }
-
 
 
 }

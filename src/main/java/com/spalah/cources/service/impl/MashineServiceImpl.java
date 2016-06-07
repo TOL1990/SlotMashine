@@ -2,8 +2,10 @@ package com.spalah.cources.service.impl;
 
 import com.spalah.cources.model.Board;
 import com.spalah.cources.model.Line;
+import com.spalah.cources.model.dao.BetDao;
 import com.spalah.cources.model.dao.MashineDao;
 import com.spalah.cources.model.entity.Mashine;
+import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.Player;
 import com.spalah.cources.service.MashineService;
 import com.spalah.cources.service.PlayerService;
@@ -27,6 +29,9 @@ public class MashineServiceImpl implements MashineService {
 
     @Autowired
     MashineDao mashineDao;
+
+    @Autowired
+    BetDao betDao;
 
     public String makeBet(Map<Line, Integer> betsMap) {
         BigDecimal result = null;
@@ -73,8 +78,10 @@ public class MashineServiceImpl implements MashineService {
     /**
      * Доступные ставки на конкретной машине
      */
-    public int[] avaliableBets(Mashine mashine) {
-        return null;
+    public List<MashineBets> avaliableBets(long mashine_id) {
+       Mashine mashine =  mashineDao.findById(mashine_id);
+        System.out.println(mashine.getBets().toString());
+        return mashine.getBets();
     }
 
     public int linesCount(Mashine mashine) {

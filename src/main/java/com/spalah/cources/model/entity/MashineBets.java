@@ -51,4 +51,11 @@ public class MashineBets implements Serializable{
     public void setMashine(Mashine mashine) {
         this.mashine = mashine;
     }
+
+    @Override
+    public String toString() {
+        return "MashineBets{" +
+                "bet=" + bet +
+                '}';
+    }
 }

@@ -43,6 +43,9 @@
                 <beans:value>com.spalah.cources.model.entity.Player</beans:value>
                 <beans:value>com.spalah.cources.model.entity.Mashine</beans:value>
                 <beans:value>com.spalah.cources.model.entity.MashineBets</beans:value>
+                <beans:value>com.spalah.cources.model.entity.PayTable</beans:value>
+                <beans:value>com.spalah.cources.model.entity.Icon</beans:value>
+                <beans:value>com.spalah.cources.model.entity.PayIcon</beans:value>
             </beans:list>
         </beans:property>
         <beans:property name="hibernateProperties">

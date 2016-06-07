@@ -2,6 +2,7 @@ package com.spalah.cources.service;
 
 import com.spalah.cources.model.Line;
 import com.spalah.cources.model.entity.Mashine;
+import com.spalah.cources.model.entity.MashineBets;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,6 @@ public interface MashineService {
     int[][] spin();
 
     String makeBet(Map<Line, Integer> betsMap);
-
+    public List<MashineBets> avaliableBets(long mashine_id);
 
 }

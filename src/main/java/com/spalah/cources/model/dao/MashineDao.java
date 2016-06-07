@@ -2,6 +2,7 @@ package com.spalah.cources.model.dao;
 
 import com.spalah.cources.model.Line;
 import com.spalah.cources.model.entity.Mashine;
+import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.PayTable;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by Тарас on 04.06.2016.
  */
 public interface MashineDao {
-    public int[] avaliableBets(Mashine mashine) ;
+    public List<MashineBets> avaliableBets(Mashine mashine) ;
 
     public int linesCount(Mashine mashine) ;
 
