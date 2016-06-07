@@ -7,20 +7,20 @@ import com.spalah.cources.service.MashineService;
 import com.spalah.cources.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.List;
 
 
 @Controller
@@ -76,7 +76,7 @@ public class MainController {
      * Выбрать линии, выбрать ставки для каждой из них
      * линия 1 - ставка 25$
      */
-    @RequestMapping(value = {"/bet"}, method = RequestMethod.GET)
+//    @RequestMapping(value = {"/bet"}, method = RequestMethod.GET)
     @ResponseBody
     public String bet() {
 
@@ -95,10 +95,15 @@ public class MainController {
         return player.toString();
     }
 
-    @RequestMapping(value = "/test.form",method = RequestMethod.GET)
-    public String test(@RequestParam("name") String param,Model model) {
-        model.addAttribute("name", param);
-        return "hello " + param;
+    @RequestMapping(value = "/bet",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String test(@RequestBody Player player) {
+        Player pl = playerService.findById(player.getId());
+        pl.setBallance(player.getBallance());
+        playerService.updatePlayer(pl);
+        return player.toString();
     }
+
+
 
 }

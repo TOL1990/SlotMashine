@@ -32,12 +32,7 @@ public class PlayerServiceImpl implements PlayerService {
  * It will be updated in db once transaction ends.
  */
     public void updatePlayer (Player player) {
-        Player entity = dao.findById((long) player.getId());
-        if (entity != null) {
-            entity.setNickName(player.getNickName());
-            entity.setPassword(player.getPassword());
-            entity.setBallance(player.getBallance());
-        }
+        dao.update(player);
     }
     public void deletPlayerByNick (String nick){ dao.deletePlayerByNick(nick);}
 

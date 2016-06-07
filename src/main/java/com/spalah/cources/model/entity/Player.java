@@ -7,13 +7,16 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import static javax.swing.text.StyleConstants.Size;
 
 @Entity
-@Table(name = "players")
-public class Player {
+@Table(name = "players", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "player_id"),
+        @UniqueConstraint(columnNames = "nick") })
+public class Player implements Serializable {
     @Id
     @Column(name = "player_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,8 +83,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Игрок{" +
-                "№ " + id +
+        return "Player{" +
+                "# " + id +
                 " '" + nickName + '\'' +
                 ", password ='" + password + '\'' +
                 ", " + ballance + "$ " +

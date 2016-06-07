@@ -2,28 +2,30 @@ package com.spalah.cources.model.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by Тарас on 05.06.2016.
  */
 @Entity
 @Table(name = "bets")
-public class MashineBets {
+public class MashineBets implements Serializable{
 
 
     @Id
-    @Column(name = "mashine_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bet_id", unique = true, nullable = false)
     private long id;
 
     @Column(name = "bet")
-    private int bet;
+    private BigDecimal bet;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mashine_id")
+    private Mashine mashine;
 
     public MashineBets() {
-    }
-
-    public MashineBets(long id, int bet) {
-        this.id = id;
-        this.bet = bet;
     }
 
     public long getId() {
@@ -34,11 +36,19 @@ public class MashineBets {
         this.id = id;
     }
 
-    public int getBet() {
+    public BigDecimal getBet() {
         return bet;
     }
 
-    public void setBet(int bet) {
+    public void setBet(BigDecimal bet) {
         this.bet = bet;
+    }
+
+    public Mashine getMashine() {
+        return mashine;
+    }
+
+    public void setMashine(Mashine mashine) {
+        this.mashine = mashine;
     }
 }

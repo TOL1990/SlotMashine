@@ -21,6 +21,5 @@ public interface PlayerDao {
 
     Player findPlayerByNick(String nick);
 
-
-
+    void update(Player player);
 }

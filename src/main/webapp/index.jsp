@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 
@@ -6,7 +7,10 @@
 </head>
 <body>
 <p align="right"><font color="#B22222"><input name="btn_login" type="button" value="Войти"></font>&nbsp;
-    <input name="btn_registrarion" type="button" value="Зарегаться!" formtarget="/registration"></p>
+    <a href="<c:url value='/new' />">
+        <input name="btn_registrarion" type="button" value="Зарегаться!" formtarget="/registration">
+    </a>
+</p>
 
 <h1 style="text-align: center;"><var><b>Добро пожаловать в казино!</b></var></h1>
 

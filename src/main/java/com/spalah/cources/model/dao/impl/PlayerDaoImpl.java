@@ -62,5 +62,18 @@ public class PlayerDaoImpl extends AbstractDao<Long, Player> implements PlayerDa
         return (Player) criteria.uniqueResult();
     }
 
+    @Override
+    public void update(Player player) {
+        Session s = getSession();
+        s.beginTransaction();
+        Query query = s.createQuery("update Player as p set ballance = :ballance where id = :id");
+        query.setParameter("ballance", player.getBallance());
+        query.setParameter("id", player.getId());
+        query.executeUpdate();
+        s.getTransaction().commit();
+        s.close();
+
+    }
+
 
 }

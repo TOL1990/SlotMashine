@@ -4,11 +4,12 @@ package com.spalah.cources.model.entity;
 import com.spalah.cources.model.Board;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "mashines")
-public class Mashine {
+public class Mashine implements Serializable {
 
     @Id
     @Column(name = "mashine_id", nullable = false)
@@ -25,6 +26,9 @@ Board drums; // наше игровое поле. Барабаны
 
 
 //    List<MashineBets> playerBets; // Описывает ставки сделанные игроком
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mashine", cascade = CascadeType.ALL)
+    List<MashineBets> bets;
 //    int[] mashineBet;//доступные ставки
 //    PayTable payTable;
 
@@ -55,6 +59,14 @@ Board drums; // наше игровое поле. Барабаны
 
     public void setDrums(Board drums) {
         this.drums = drums;
+    }
+
+    public List<MashineBets> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<MashineBets> bets) {
+        this.bets = bets;
     }
 
     @Override
