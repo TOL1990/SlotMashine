@@ -1,6 +1,6 @@
 package com.spalah.cources.controller;
 
-import com.spalah.cources.model.Line;
+import com.spalah.cources.model.entity.Line;
 import com.spalah.cources.model.entity.Mashine;
 import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.Player;
@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +45,7 @@ public class MainController {
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/player/list"}, method = RequestMethod.GET)
     public String listPlayers(ModelMap model) {
 
         List<Player> players = playerService.findAllPlayers();
@@ -62,7 +60,7 @@ public class MainController {
      * и количество доступных линий
      * Pay Тable для каждой слотмашины
      */
-    @RequestMapping(value = {"/mashines"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/mashine/list"}, method = RequestMethod.GET)
     @ResponseBody
     public String listMashines(ModelMap model) {
         List<Mashine> mashines = mashineService.findAllMashines();
@@ -70,45 +68,78 @@ public class MainController {
         return mashines.toString();
     }
 
-    @RequestMapping(value = {"/avaliableBets"}, method = RequestMethod.GET)
-    @ResponseBody
-    public String listMashines() {
-        long mashineId = 1;// 1 - какой машины посмотреть доступные ставки
+    ////////////////////  не доделанный  посмотреть как передавать  обычный Long в параметры
+    @RequestMapping(value = "/test.form", method = RequestMethod.GET)
+    public String listMashines(@RequestParam("mashineId") long mashineId,Model model) {
+//        long mashineId = 1;// 1 - какой машины посмотреть доступные ставки
         List<MashineBets> bets = mashineService.avaliableBets(mashineId);
-        return bets.toString();
+        model.addAttribute("hzbet", bets.get(1).getBet());
+        return "hello";
     }
 
     /**
      * Выбрать линии, выбрать ставки для каждой из них
      * линия 1 - ставка 25$
      */
-//    @RequestMapping(value = {"/bet"}, method = RequestMethod.GET)
-    @ResponseBody
-    public String bet() {
 
-        Map<Line, Integer> bets = new HashMap<>();// сюда будет получен результат из формы. линия и сколько денег на точку
-        //получаем сет линий
-        String result = mashineService.makeBet(bets);
+
+    @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String newPlayer(@RequestBody Player player) {
+        Player newPlayer = playerService.findPlayerByNick(player.getNickName());
+//       if(newPlayer == null) {
+           playerService.savePlayer(player);
+        newPlayer = playerService.findPlayerByNick(player.getNickName());
+//       }
+
+        return "New Guy! \n" + newPlayer.toString();
+    }
+
+    //    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String test(@RequestBody Player player) {
+//        Player pl = playerService.findById(player.getId());
+//        pl.setBallance(player.getBallance());
+//        playerService.updatePlayer(pl);
+//        return player.toString();
+//    }
+    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String test(@RequestBody ResponseBet responseBet) {
+//        String result = responseBet.getUserId() + "" + responseBet.getMashineId() + responseBet.getBets().toString();
+        String result = mashineService.makeBet(responseBet.getMashineId(),
+                                                responseBet.getUserId(),
+                                                responseBet.getBets());
+
         return result;
     }
 
-    @RequestMapping(value = {"/new"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String newPlayer(ModelMap model) {
-        Player player = new Player();
-        model.addAttribute("player", player);
-        model.addAttribute("edit", false);
-        return player.toString();
+    public String login(@RequestBody Player player, Model model) {
+        Player newPlayer = playerService.findPlayerByNick(player.getNickName());
+       if(newPlayer == null)
+           return "Invalid login";
+//           model.addAttribute("loginMessage", )
+
+       if(!newPlayer.getPassword().equals(player.getPassword()))
+           return "Invalid password";
+
+        return "Wazzap " + player.getNickName();
     }
 
-    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/zzz", method = RequestMethod.GET)
     @ResponseBody
-    public String test(@RequestBody Player player) {
-        Player pl = playerService.findById(player.getId());
-        pl.setBallance(player.getBallance());
-        playerService.updatePlayer(pl);
-        return player.toString();
-    }
+    public String login()
+    {
 
+        Mashine mashine = mashineService.findById(1);
+        System.out.println(mashine.getBets());
+
+        System.out.println(mashine.getPayTable());
+
+        System.out.println(mashine.getLines());
+        return "zzz";
+    }
 
 }

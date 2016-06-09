@@ -39,6 +39,7 @@ public class Board {
                 drum[i][j]=rnd.nextInt(5) + 1;
             }
         }
+        toString();
 
 
     }

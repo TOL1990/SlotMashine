@@ -40,6 +40,13 @@ public class Player implements Serializable {
 
     public Player() {
     }
+
+    public Player(String nickName, String password) {
+        this.nickName = nickName;
+        this.password = password;
+        this.ballance = new BigDecimal(10000);
+    }
+
     public long getId() {
         return id;
     }

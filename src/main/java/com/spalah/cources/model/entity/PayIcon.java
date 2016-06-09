@@ -38,6 +38,14 @@ public class PayIcon {
         this.awards = awards;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Icon getIcon() {
         return icon;
     }

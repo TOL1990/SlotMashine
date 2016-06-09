@@ -28,7 +28,7 @@ public class Icon {
     @Column(name = "description")
     private String desription;
 
-    @OneToMany(mappedBy = "icon", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "icon", fetch = FetchType.LAZY)
     private List<PayIcon> payIcons;
 
 

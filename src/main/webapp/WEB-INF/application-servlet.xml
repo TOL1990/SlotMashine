@@ -46,11 +46,13 @@
                 <beans:value>com.spalah.cources.model.entity.PayTable</beans:value>
                 <beans:value>com.spalah.cources.model.entity.Icon</beans:value>
                 <beans:value>com.spalah.cources.model.entity.PayIcon</beans:value>
+                <beans:value>com.spalah.cources.model.entity.Line</beans:value>
+                <beans:value>com.spalah.cources.model.entity.LinePoint</beans:value>
             </beans:list>
         </beans:property>
         <beans:property name="hibernateProperties">
             <beans:props>
-                <beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+                <beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect
                 </beans:prop>
                 <beans:prop key="hibernate.show_sql">true</beans:prop>
             </beans:props>

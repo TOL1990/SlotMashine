@@ -10,6 +10,9 @@
     <a href="<c:url value='/new' />">
         <input name="btn_registrarion" type="button" value="Зарегаться!" formtarget="/registration">
     </a>
+    <a href="avaliableBets">
+        <input name="btn_registrarion" type="button" value="Зарегаться!" formtarget="/registration">
+    </a>
 </p>
 
 <h1 style="text-align: center;"><var><b>Добро пожаловать в казино!</b></var></h1>
@@ -22,7 +25,10 @@
         <img alt="" height="289" src="http://avtomaty-igrovye.info/assets/images/blog/casino/casino-nout.jpg" width="378">
     </font>
 </p>
-
+<form action="test.form" method="get">
+    <input type=number name="mashineId">
+    <input type="submit">
+</form>
 
 </body>
 </html>

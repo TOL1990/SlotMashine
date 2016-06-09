@@ -14,23 +14,24 @@ public class Mashine implements Serializable {
     @Id
     @Column(name = "mashine_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
-
-    //    List<Line> lines; //перечень линий доступных для игры
     @Transient
-    Board drums; // наше игровое поле. Барабаны
-
+    private Board drums; // наше игровое поле. Барабаны
 
 //    List<MashineBets> playerBets; // Описывает ставки сделанные игроком
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mashine", cascade = CascadeType.ALL)
-    List<MashineBets> bets; //доступные ставки
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mashine", cascade = CascadeType.ALL)
+    private List<Line> lines; //перечень линий доступных для игры
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mashine", cascade = CascadeType.ALL)
+    private List<MashineBets> bets; //доступные ставки
+
+    @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private PayTable payTable;
 
@@ -46,13 +47,20 @@ public class Mashine implements Serializable {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
     }
 
     public Board getDrums() {
@@ -69,6 +77,14 @@ public class Mashine implements Serializable {
 
     public void setBets(List<MashineBets> bets) {
         this.bets = bets;
+    }
+
+    public PayTable getPayTable() {
+        return payTable;
+    }
+
+    public void setPayTable(PayTable payTable) {
+        this.payTable = payTable;
     }
 
     @Override

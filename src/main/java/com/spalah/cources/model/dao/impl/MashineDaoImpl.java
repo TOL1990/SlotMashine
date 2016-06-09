@@ -1,12 +1,11 @@
 package com.spalah.cources.model.dao.impl;
 
-import com.spalah.cources.model.Line;
+import com.spalah.cources.model.entity.Line;
 import com.spalah.cources.model.dao.AbstractDao;
 import com.spalah.cources.model.dao.MashineDao;
 import com.spalah.cources.model.entity.Mashine;
 import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.PayTable;
-import com.spalah.cources.model.entity.Player;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +29,7 @@ public class MashineDaoImpl extends AbstractDao<Long, Mashine> implements Mashin
 
     @Override
     public List<Line> getLines(Mashine mashine) {
+
         return null;
     }
 

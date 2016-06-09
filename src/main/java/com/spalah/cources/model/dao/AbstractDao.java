@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
@@ -40,8 +41,13 @@ public class AbstractDao<PK extends Serializable, T> {
         return (T) getSession().get(persistentClass, key);
     }
 
+ @Transactional
     public void persist(T entity) {
-        getSession().persist(entity);
+     Session s = getSession();
+        s.beginTransaction();
+        s.persist(entity);
+        s.getTransaction().commit();
+        s.close();
     }
 
     public void delete(T entity) {

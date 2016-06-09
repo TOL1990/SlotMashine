@@ -1,6 +1,6 @@
 package com.spalah.cources.model.dao;
 
-import com.spalah.cources.model.Line;
+import com.spalah.cources.model.entity.Line;
 import com.spalah.cources.model.entity.Mashine;
 import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.PayTable;

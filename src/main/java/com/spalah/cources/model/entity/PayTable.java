@@ -26,7 +26,7 @@ public class PayTable {
     @OneToOne(mappedBy = "payTable", fetch = FetchType.LAZY)
     private Mashine mashine;
 
-    @OneToMany(mappedBy = "payTable", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "payTable", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Icon> icons;
 
     public PayTable() {

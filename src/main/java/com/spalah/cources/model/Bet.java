@@ -1,12 +1,12 @@
 package com.spalah.cources.model;
 
 
-import com.spalah.cources.model.Line;
+import com.spalah.cources.model.entity.Line;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Bet {
-   Map<List<Line>, Integer> bet;
+   Map<Set<Line>, Integer> bet;
 
 }

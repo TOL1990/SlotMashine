@@ -6,6 +6,7 @@ import com.spalah.cources.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Component
 public class PlayerServiceImpl implements PlayerService {
+    private final BigDecimal STARTING_PLAYER_MONEY = new BigDecimal(10000);
     @Autowired
     private PlayerDao dao;
 
@@ -23,6 +25,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     public void savePlayer(Player player){
+//        if(!player.getNickName().isEmpty()) тут всякие проверки будут
+        String nick = player.getNickName();
+        player.setBallance(STARTING_PLAYER_MONEY);
         dao.savePlayer(player);
     }
 
@@ -51,4 +56,6 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = findPlayerByNick(nick);
         return ( player == null || ((id != null) && (player.getId() == id)));
     }
+
+
 }

@@ -36,3 +36,7 @@
 	<a href="<c:url value='/new' />">Add New Player</a>
 </body>
 </html>
+
+
+
+
