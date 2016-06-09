@@ -57,8 +57,10 @@ CREATE TABLE `icons` (
   `image` tinyblob,
   `description` varchar(100) DEFAULT NULL,
   `pay_table_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`icon_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`icon_id`),
+  KEY `IconToPayTableFK_idx` (`pay_table_id`),
+  CONSTRAINT `IconToPayTableFK` FOREIGN KEY (`pay_table_id`) REFERENCES `pay_tables` (`pay_table_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +69,7 @@ CREATE TABLE `icons` (
 
 LOCK TABLES `icons` WRITE;
 /*!40000 ALTER TABLE `icons` DISABLE KEYS */;
+INSERT INTO `icons` VALUES (1,NULL,'Anubis',1),(2,NULL,'Mummy',1),(3,NULL,'Pyramid',1),(4,NULL,'Pharaon',1),(5,NULL,'Hippo',1);
 /*!40000 ALTER TABLE `icons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,9 +84,11 @@ CREATE TABLE `line_points` (
   `line_id` int(11) NOT NULL COMMENT 'какой линии принадлежит точка',
   `coll` int(11) DEFAULT NULL COMMENT 'Столбец ',
   `row` int(11) DEFAULT NULL COMMENT 'строка',
-  PRIMARY KEY (`line_id`),
-  CONSTRAINT `LPToLineFK` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Описывает точки через которые проходит линия';
+  `line_point_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`line_point_id`),
+  KEY `LineToLinePointsFK_idx` (`line_id`),
+  CONSTRAINT `LineToLinePointsFK` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='Описывает точки через которые проходит линия';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +97,7 @@ CREATE TABLE `line_points` (
 
 LOCK TABLES `line_points` WRITE;
 /*!40000 ALTER TABLE `line_points` DISABLE KEYS */;
+INSERT INTO `line_points` VALUES (1,1,1,1),(1,2,1,2),(1,3,1,3),(1,4,1,4),(1,5,1,5),(2,1,2,6),(2,2,2,7),(2,3,2,8),(2,4,2,9),(2,5,2,10),(3,1,3,11),(3,2,3,12),(3,3,3,13),(3,4,3,14),(3,5,3,15),(4,1,1,16),(4,1,2,17),(4,1,3,18),(5,2,1,19),(5,2,2,20),(5,2,3,21),(6,1,1,22),(6,2,2,23),(6,3,3,24),(6,4,2,25),(6,5,1,26),(7,1,3,27),(7,2,2,28),(7,3,1,29),(7,4,2,30),(7,5,3,31);
 /*!40000 ALTER TABLE `line_points` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,11 +110,11 @@ DROP TABLE IF EXISTS `lines`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lines` (
   `line_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mashine_id` int(11) DEFAULT NULL COMMENT 'Какой машине принадлежит линия',
+  `mashine_id` int(11) NOT NULL COMMENT 'Какой машине принадлежит линия',
   PRIMARY KEY (`line_id`),
   KEY `MashineToLineFK_idx` (`mashine_id`),
-  CONSTRAINT `MashineToLineFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Описывает лини для конкретной машины';
+  CONSTRAINT `MashineToLineFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Описывает лини для конкретной машины';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,6 +123,7 @@ CREATE TABLE `lines` (
 
 LOCK TABLES `lines` WRITE;
 /*!40000 ALTER TABLE `lines` DISABLE KEYS */;
+INSERT INTO `lines` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1);
 /*!40000 ALTER TABLE `lines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +167,7 @@ CREATE TABLE `pay_icons` (
   PRIMARY KEY (`pay_icon_id`),
   KEY `PayIconToIconFK` (`icon_id`),
   CONSTRAINT `PayIconToIconFK` FOREIGN KEY (`icon_id`) REFERENCES `icons` (`icon_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,6 +176,7 @@ CREATE TABLE `pay_icons` (
 
 LOCK TABLES `pay_icons` WRITE;
 /*!40000 ALTER TABLE `pay_icons` DISABLE KEYS */;
+INSERT INTO `pay_icons` VALUES (5,3,500,1),(5,4,1000,2),(5,5,10000,3),(1,3,8,16),(1,4,40,17),(1,5,150,18),(2,3,6,19),(2,4,35,20),(2,5,100,21),(3,3,5,22),(3,4,30,23),(3,5,80,24),(4,3,5,25),(4,4,25,26),(4,5,75,27);
 /*!40000 ALTER TABLE `pay_icons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +195,7 @@ CREATE TABLE `pay_tables` (
   UNIQUE KEY `pay_table_id_UNIQUE` (`pay_table_id`),
   KEY `MashineToPayTabFK_idx` (`mashine_id`),
   CONSTRAINT `MashineToPayTabFK` FOREIGN KEY (`mashine_id`) REFERENCES `mashines` (`mashine_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Описывает таблички выплат для каждой машины';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Описывает таблички выплат для каждой машины';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,6 +204,7 @@ CREATE TABLE `pay_tables` (
 
 LOCK TABLES `pay_tables` WRITE;
 /*!40000 ALTER TABLE `pay_tables` DISABLE KEYS */;
+INSERT INTO `pay_tables` VALUES (1,1,'Egypt pay Table'),(2,2,'Ukraine pay table');
 /*!40000 ALTER TABLE `pay_tables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +222,7 @@ CREATE TABLE `players` (
   `balance` bigint(20) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `nick_UNIQUE` (`nick`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +231,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (1,'lamer','111',110),(2,'pro','123654',1000000);
+INSERT INTO `players` VALUES (1,'lamer','111',110),(2,'pro','123654',1000000),(3,'Grisha','123123',100000),(4,'noobko','0000',10000);
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,4 +276,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-07 18:41:04
+-- Dump completed on 2016-06-09 21:33:04
