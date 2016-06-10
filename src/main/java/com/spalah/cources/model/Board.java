@@ -26,20 +26,25 @@ public class Board {
 
     public int[][] makeDrums()
     {
-        int [][] drums = new int[coll][row];
+        int [][] drums = new int[row][coll];
         //Заполнить двумерный массив
         return drums;
     }
 
     public void spin(){
-       drum = new int[coll][row];
+       drum = new int[row][coll];
         Random rnd = new Random();
         for (int i=0;i < drum.length;i++) {
             for (int j=0;j < drum[i].length;j++) {
                 drum[i][j]=rnd.nextInt(5) + 1;
             }
         }
-        toString();
+        for (int i=0;i < drum.length;i++) {
+            System.out.println("");
+            for (int j=0;j < drum[i].length;j++){
+                System.out.print(drum[i][j]+" ");
+            }
+        }
 
 
     }

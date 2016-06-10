@@ -3,6 +3,7 @@ package com.spalah.cources.service;
 import com.spalah.cources.model.entity.Line;
 import com.spalah.cources.model.entity.Mashine;
 import com.spalah.cources.model.entity.MashineBets;
+import com.spalah.cources.model.exception.PlayerException;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface MashineService {
 
     int[][] spin();
 
-    public String makeBet(long mashineId, long playerId, Map<Integer, Integer> betsMap);
+    public String makeBet(long mashineId, long playerId, Map<Integer, Integer> betsMap) throws PlayerException;
 
     public List<MashineBets> avaliableBets(long mashine_id);
 

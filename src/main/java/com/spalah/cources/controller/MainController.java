@@ -87,7 +87,7 @@ public class MainController {
     public String newPlayer(@RequestBody Player player) throws PlayerException {
         Player newPlayer = playerService.findPlayerByNick(player.getNickName());
         if (newPlayer != null) throw new PlayerException("Nick name is already exist");
-        if(!RegEx.nickChek(player.getNickName())) throw new PlayerException("Invalid nick name");
+        if (!RegEx.nickChek(player.getNickName())) throw new PlayerException("Invalid nick name");
         else {
             playerService.savePlayer(player);
             newPlayer = playerService.findPlayerByNick(player.getNickName());
@@ -108,9 +108,14 @@ public class MainController {
     @ResponseBody
     public String test(@RequestBody ResponseBet responseBet) {
 //        String result = responseBet.getUserId() + "" + responseBet.getMashineId() + responseBet.getBets().toString();
-        String result = mashineService.makeBet(responseBet.getMashineId(),
-                responseBet.getUserId(),
-                responseBet.getBets());
+        String result = null;
+        try {
+            result = mashineService.makeBet(responseBet.getMashineId(),
+                    responseBet.getUserId(),
+                    responseBet.getBets());
+        } catch (PlayerException e) {
+            e.printStackTrace();
+        }
 
         return result;
     }

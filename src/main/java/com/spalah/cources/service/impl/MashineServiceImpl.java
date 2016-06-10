@@ -5,6 +5,7 @@ import com.spalah.cources.model.dao.BetDao;
 import com.spalah.cources.model.dao.LineDao;
 import com.spalah.cources.model.dao.MashineDao;
 import com.spalah.cources.model.entity.*;
+import com.spalah.cources.model.exception.PlayerException;
 import com.spalah.cources.service.MashineService;
 import com.spalah.cources.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,12 @@ public class MashineServiceImpl implements MashineService {
     @Autowired
     LineDao lineDao;
 
-    public String makeBet(long mashineId, long playerId, Map<Integer, Integer> incomingMap) {
+    public String makeBet(long mashineId, long playerId, Map<Integer, Integer> incomingMap) throws PlayerException {
         BigDecimal result = null;
         Player player = playerService.findById(playerId);
         Mashine mashine = mashineDao.findById(mashineId);
+
+        if(player == null) throw new PlayerException("Player with id" + playerId +"is not exist");
 
         //переделаем в мапу линий
         Map<Line, Integer> betsMap = new HashMap<>();
@@ -54,7 +57,6 @@ public class MashineServiceImpl implements MashineService {
         }
 
 
-
         if (chekValid(mashine, player, betsMap)) {
             int[][] drum = spin();
 
@@ -63,6 +65,23 @@ public class MashineServiceImpl implements MashineService {
             playerService.updatePlayer(player);
         }
         return result.toString();
+    }
+
+    private boolean chekValid(Mashine mashine, Player player, Map<Line, Integer> betsMap) {
+        //проверить хватает ли денег на ставки.
+
+        //являются ли ставки допустимыми соответствующей слот машине
+        //PS будем ставки передавать из чекбоксов формы. не нужно проверять
+        BigDecimal playerBallance = player.getBallance();
+        for (Map.Entry<Line, Integer> entry : betsMap.entrySet()) {
+            Line line = entry.getKey();
+            int bet = entry.getValue();
+            int betForLine = line.getPoints().size() * bet;
+            playerBallance.subtract(BigDecimal.valueOf(betForLine));
+        }
+        if (playerBallance.signum() == 1)  // возвращает (-1 если a < 0), (0 если a == 0), (1 если a > 0)
+            return true;
+        else return false;
     }
 
     private BigDecimal chekResult(Map<Line, Integer> betsMap, int[][] drum, PayTable payTable) {
@@ -77,9 +96,9 @@ public class MashineServiceImpl implements MashineService {
         for (Map.Entry<Line, Integer> entry : betsMap.entrySet()) {
             Line line = entry.getKey();
             int bet = entry.getValue();
-//            BigDecimal betForLine = BigDecimal.valueOf(bet * line.getPoints().size()); // ставка на линию ()
-            int betForLine = line.getPoints().size() * bet;
-            result.subtract(BigDecimal.valueOf(betForLine));
+            BigDecimal betForLine = BigDecimal.valueOf(bet * line.getPoints().size()); // ставка на линию ()
+//            int betForLine = line.getPoints().size() * bet;
+            result = result.subtract(betForLine);
         }
 
         for (Map.Entry<Line, Integer> entry : betsMap.entrySet()) {
@@ -91,9 +110,9 @@ public class MashineServiceImpl implements MashineService {
 
             //пройдемся по точкам линии и запишем их соответствие с барабаном в iconsLine
             for (LinePoint p : line.getPoints()) {
-                int coll = p.getColl();
-                int row = p.getRow();
-                iconsLine.add(drum[coll][row]);
+                int row = p.getRow() - 1;
+                int coll = p.getColl() - 1;
+                iconsLine.add(drum[row][coll]);
             }
 
             int tempWinCount = 1; // для подсчета иконок совпадений
@@ -116,30 +135,13 @@ public class MashineServiceImpl implements MashineService {
                     }
                 }
                 //результат + (ставка_на_точку_линии * награда_по_Pay_Table)
-                result.add(multiplierIcon.multiply(BigDecimal.valueOf(bet)));
+                result = result.add(multiplierIcon.multiply(BigDecimal.valueOf(bet)));
             }
         }
 //действия с ключом и значением
 
         return result;
 //        return new BigDecimal(-100); // Хоть функция и тестовая но будем сжирать у тебя бабло а не докидывать
-    }
-
-    private boolean chekValid(Mashine mashine,Player player, Map<Line, Integer> betsMap) {
-        //проверить хватает ли денег на ставки.
-
-        //являются ли ставки допустимыми соответствующей слот машине
-        //PS будем ставки передавать из чекбоксов формы. не нужно проверять
-        BigDecimal playerBallance = player.getBallance();
-        for (Map.Entry<Line, Integer> entry : betsMap.entrySet()) {
-            Line line = entry.getKey();
-            int bet = entry.getValue();
-            int betForLine = line.getPoints().size() * bet;
-            playerBallance.subtract(BigDecimal.valueOf(betForLine));
-        }
-        if (playerBallance.signum() == 1)  // возвращает (-1 если a < 0), (0 если a == 0), (1 если a > 0)
-         return true;
-       else return false;
     }
 
     public int[][] spin() {
@@ -170,7 +172,9 @@ public class MashineServiceImpl implements MashineService {
         return mashine.getLines();
     }
 
-    public Mashine findById(long id) {return mashineDao.findById(id);    }
+    public Mashine findById(long id) {
+        return mashineDao.findById(id);
+    }
 
     public void saveMashine(Mashine mashine) {
     }

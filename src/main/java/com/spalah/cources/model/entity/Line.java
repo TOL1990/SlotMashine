@@ -8,7 +8,7 @@ import java.util.List;
  * Класс описывает линию как перечень индексов двумерного массива.
  */
 @Entity
-@Table(name = "lines")
+@Table(name = "mashine_lines")
 public class Line implements Serializable {
 
     @Id

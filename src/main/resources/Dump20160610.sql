@@ -87,8 +87,8 @@ CREATE TABLE `line_points` (
   `line_point_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`line_point_id`),
   KEY `LineToLinePointsFK_idx` (`line_id`),
-  CONSTRAINT `LineToLinePointsFK` FOREIGN KEY (`line_id`) REFERENCES `lines` (`line_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='Описывает точки через которые проходит линия';
+  CONSTRAINT `LineToLinePointsFK` FOREIGN KEY (`line_id`) REFERENCES `mashine_lines` (`line_id`) ON DELETE NO ACTION ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='Описывает точки через которые проходит линия';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,18 +97,18 @@ CREATE TABLE `line_points` (
 
 LOCK TABLES `line_points` WRITE;
 /*!40000 ALTER TABLE `line_points` DISABLE KEYS */;
-INSERT INTO `line_points` VALUES (1,1,1,1),(1,2,1,2),(1,3,1,3),(1,4,1,4),(1,5,1,5),(2,1,2,6),(2,2,2,7),(2,3,2,8),(2,4,2,9),(2,5,2,10),(3,1,3,11),(3,2,3,12),(3,3,3,13),(3,4,3,14),(3,5,3,15),(4,1,1,16),(4,1,2,17),(4,1,3,18),(5,2,1,19),(5,2,2,20),(5,2,3,21),(6,1,1,22),(6,2,2,23),(6,3,3,24),(6,4,2,25),(6,5,1,26),(7,1,3,27),(7,2,2,28),(7,3,1,29),(7,4,2,30),(7,5,3,31);
+INSERT INTO `line_points` VALUES (1,1,1,1),(1,2,1,2),(1,3,1,3),(1,4,1,4),(1,5,1,5),(2,1,2,6),(2,2,2,7),(2,3,2,8),(2,4,2,9),(2,5,2,10),(3,1,3,11),(3,2,3,12),(3,3,3,13),(3,4,3,14),(3,5,3,15),(6,1,2,16),(6,2,1,17),(6,3,1,18),(6,4,1,19),(6,5,2,20),(4,1,1,22),(4,2,2,23),(4,3,3,24),(4,4,2,25),(4,5,1,26),(5,1,3,27),(5,2,2,28),(5,3,1,29),(5,4,2,30),(5,5,3,31),(7,1,2,32),(7,2,3,33),(7,3,3,34),(7,4,3,35),(7,5,2,36);
 /*!40000 ALTER TABLE `line_points` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `lines`
+-- Table structure for table `mashine_lines`
 --
 
-DROP TABLE IF EXISTS `lines`;
+DROP TABLE IF EXISTS `mashine_lines`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lines` (
+CREATE TABLE `mashine_lines` (
   `line_id` int(11) NOT NULL AUTO_INCREMENT,
   `mashine_id` int(11) NOT NULL COMMENT 'Какой машине принадлежит линия',
   PRIMARY KEY (`line_id`),
@@ -118,13 +118,13 @@ CREATE TABLE `lines` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `lines`
+-- Dumping data for table `mashine_lines`
 --
 
-LOCK TABLES `lines` WRITE;
-/*!40000 ALTER TABLE `lines` DISABLE KEYS */;
-INSERT INTO `lines` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1);
-/*!40000 ALTER TABLE `lines` ENABLE KEYS */;
+LOCK TABLES `mashine_lines` WRITE;
+/*!40000 ALTER TABLE `mashine_lines` DISABLE KEYS */;
+INSERT INTO `mashine_lines` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1);
+/*!40000 ALTER TABLE `mashine_lines` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -222,7 +222,7 @@ CREATE TABLE `players` (
   `balance` bigint(20) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `nick_UNIQUE` (`nick`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +231,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (1,'lamer','111',110),(2,'pro','123654',1000000),(3,'Grisha','123123',100000),(4,'noobko','0000',10000);
+INSERT INTO `players` VALUES (1,'lamer','111',110),(2,'pro','123654',999710),(3,'Grisha','123123',100000),(4,'noobko','0000',10000);
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,4 +276,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-09 21:33:04
+-- Dump completed on 2016-06-10 17:17:31
