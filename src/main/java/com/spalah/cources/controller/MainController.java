@@ -1,11 +1,12 @@
 package com.spalah.cources.controller;
 
-import com.spalah.cources.model.entity.Line;
 import com.spalah.cources.model.entity.Mashine;
 import com.spalah.cources.model.entity.MashineBets;
 import com.spalah.cources.model.entity.Player;
+import com.spalah.cources.model.exception.PlayerException;
 import com.spalah.cources.service.MashineService;
 import com.spalah.cources.service.PlayerService;
+import com.spalah.cources.service.RegEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
@@ -14,9 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -70,7 +69,7 @@ public class MainController {
 
     ////////////////////  не доделанный  посмотреть как передавать  обычный Long в параметры
     @RequestMapping(value = "/test.form", method = RequestMethod.GET)
-    public String listMashines(@RequestParam("mashineId") long mashineId,Model model) {
+    public String listMashines(@RequestParam("mashineId") long mashineId, Model model) {
 //        long mashineId = 1;// 1 - какой машины посмотреть доступные ставки
         List<MashineBets> bets = mashineService.avaliableBets(mashineId);
         model.addAttribute("hzbet", bets.get(1).getBet());
@@ -85,14 +84,16 @@ public class MainController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String newPlayer(@RequestBody Player player) {
+    public String newPlayer(@RequestBody Player player) throws PlayerException {
         Player newPlayer = playerService.findPlayerByNick(player.getNickName());
-//       if(newPlayer == null) {
-           playerService.savePlayer(player);
-        newPlayer = playerService.findPlayerByNick(player.getNickName());
-//       }
+        if (newPlayer != null) throw new PlayerException("Nick name is already exist");
+        if(!RegEx.nickChek(player.getNickName())) throw new PlayerException("Invalid nick name");
+        else {
+            playerService.savePlayer(player);
+            newPlayer = playerService.findPlayerByNick(player.getNickName());
+        }
 
-        return "New Guy! \n" + newPlayer.toString();
+        return "Hey! New Guy,  \n" + newPlayer.toString();
     }
 
     //    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -108,30 +109,26 @@ public class MainController {
     public String test(@RequestBody ResponseBet responseBet) {
 //        String result = responseBet.getUserId() + "" + responseBet.getMashineId() + responseBet.getBets().toString();
         String result = mashineService.makeBet(responseBet.getMashineId(),
-                                                responseBet.getUserId(),
-                                                responseBet.getBets());
+                responseBet.getUserId(),
+                responseBet.getBets());
 
         return result;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String login(@RequestBody Player player, Model model) {
+    public String login(@RequestBody Player player, Model model) throws PlayerException {
         Player newPlayer = playerService.findPlayerByNick(player.getNickName());
-       if(newPlayer == null)
-           return "Invalid login";
-//           model.addAttribute("loginMessage", )
+        if (newPlayer == null) throw new PlayerException("Invalid login");
 
-       if(!newPlayer.getPassword().equals(player.getPassword()))
-           return "Invalid password";
+        if (!newPlayer.getPassword().equals(player.getPassword())) throw new PlayerException("Invalid password");
 
         return "Wazzap " + player.getNickName();
     }
 
     @RequestMapping(value = "/zzz", method = RequestMethod.GET)
     @ResponseBody
-    public String login()
-    {
+    public String login() {
 
         Mashine mashine = mashineService.findById(1);
         System.out.println(mashine.getBets());
