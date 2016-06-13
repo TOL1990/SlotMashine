@@ -81,6 +81,11 @@ public class MainController {
      * линия 1 - ставка 25$
      */
 
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newPlayer()
+    {
+        return "registration";
+    }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -120,6 +125,12 @@ public class MainController {
         return result;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginGet()
+    {
+
+        return "login";
+    }
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String login(@RequestBody Player player, Model model) throws PlayerException {

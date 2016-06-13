@@ -39,12 +39,7 @@ public class Board {
                 drum[i][j]=rnd.nextInt(5) + 1;
             }
         }
-        for (int i=0;i < drum.length;i++) {
-            System.out.println("");
-            for (int j=0;j < drum[i].length;j++){
-                System.out.print(drum[i][j]+" ");
-            }
-        }
+
 
 
     }
@@ -62,6 +57,7 @@ public class Board {
 
         //goodlook sout
 //        for (int i=0;i < drum.length;i++) {
+//            System.out.println("");
 //            for (int j=0;j < drum[i].length;j++){
 //                System.out.print(drum[i][j]+" ");
 //            }

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Hello, money bag!</title>
+    <title>Nice to see you again!</title>
 </head>
 <body>
 <style>
@@ -45,31 +45,38 @@
     }
 </style>
 
-<%--<a href="<c:url value='/new' />">--%>
-
-<h1 style="text-align:center"><span style="color:#FF0000"><kbd><span style="font-family:tahoma,geneva,sans-serif"><span style="font-size:36px">WELCOME TO THE CASINO!</span></span></kbd></span></h1>
-
-<p>&nbsp;</p>
-
-<h2 style="text-align: center;"><big><span style="font-size:48px"><span style="color:#ccff00">Machine of The Future!</span></span></big></h2>
-
-<div style="text-align: center">
-    <a href="<c:url value='/login' />", methods="GET" class="button1">LOGIN</a>
-</div>
-<div style="text-align: center">
-    <a href="<c:url value='new' />" class="button1">Registration</a>
-</div>
-<div style="text-align: center">
-    <a href="<c:url value='/mashine/list' />" class="button1">Available Machines</a>
-</div>
-
 <style>
     body {
-        background: url(http://static.deathandtaxesmag.com/uploads/2014/10/man-saved-jail-slot-machine-jackpot-640x411.png) no-repeat;
+        background: url(http://www.euroasiacasino.com/blog/wp-content/uploads/2013/01/shutterstock_88643578.jpg) no-repeat;
         background-size: 100%;
     }
 </style>
 
+
+<form method="registration.post" action="#">
+    <p style="text-align: center;"><strong><span style="color:#00ff00"><span style="font-size:30px"><code>Login: <input
+            name="login" type="text"/></code></span></span></strong></p>
+
+
+    <p style="text-align: center;"><strong><span style="color:#00ff00"><span style="font-size:30px"><code>Password:
+        <input name="password" type="text"/></code></span></span></strong></p>
+</form>
+
+<div style="text-align: center">
+    <a href="<c:url value='/mashine/list' />" class="button1">LETS PLAY!</a>
+</div>
+
+<div style="text-align: center">
+    <a href="<c:url value='/' />" class="button1">Back to Casino</a>
+</div>
+
+
+<%--<div style="position:absolute; left:0px; bottom: 0px;">--%>
+<%--<form action="test.form" method="get">--%>
+<%--<input type=number name="mashineId">--%>
+<%--<input type="submit">--%>
+<%--</form>--%>
+<%--</div>--%>
 
 
 </body>
